@@ -142,3 +142,43 @@ int TestMergeSort()
 	MergeSort(a,sizeof(a) / sizeof(int));
 	PrintArray(a, sizeof(a) / sizeof(int));
 }
+//计数排序（非比较排序）
+void CounterSort(int *a, int n)
+{
+	int max = a[0], min = a[0];
+	for (int i = 0; i < n;i++)
+	{
+		if (a[i] > max)
+		{
+			max = a[i];
+		}
+		if (a[i] < min)
+		{
+			min = a[i];
+		}
+	}
+	int range = max - min + 1;
+	int *countArr =(int*) malloc(range*sizeof(int));
+	memset(countArr, 0, sizeof(int)*range); //memset 将数组内元素全部初始化为0
+	//统计次数
+	for (int i = 0; i < n;++i)
+	{
+		countArr[a[i] - min]++;
+	}
+	//根据次数进行排序
+	int j = 0;
+	for (int i = 0; i < range;++i)
+	{
+		while (countArr[i]--)
+		{
+			a[j++] = i + min;
+		}
+	}
+
+}
+int TestCounterSort()
+{
+	int a[] = { 3, 6, 2, 5, 7, 9, 8, 6, 1, 4 };
+	CounterSort(a, sizeof(a) / sizeof(int));
+	PrintArray(a, sizeof(a) / sizeof(int));
+}
